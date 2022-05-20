@@ -125,6 +125,8 @@ Sono state configurati le seguenti mail:
 | francoforte | pippo | francoforte@robertone.it |
 | remolabarca | pippo | remolabarca@robertone.it |
 
+Per configurare una mail sul computer, è necessario aprire l'applicazione, cliccare su configure mail e successivamente inserire il proprio nome, il relativo indirizzo email. Nei campi incoming mail server `pop.robertone.it` e nell'outgoing `smtp.robertone.it`
+
 ---
 
 ## NAT
