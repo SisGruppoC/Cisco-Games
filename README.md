@@ -100,7 +100,7 @@ Il server DNS interno all'azienda ha come indirizzo `192.168.1.134/29` e al suo 
 
 ### Server FTP
 
-**Ip: 192.168.1.132/29**
+Il server ftp ha indirizzo IP statico `192.168.1.138 /29`. L'accesso a quest'ultimo è consentito solo dalla rete dell'amministrazione tramite VPN e ACL come descritto nei punti seguenti.
 
 | Username | Password | Permission |
 | --- | --- | --- |
@@ -111,9 +111,8 @@ Il server DNS interno all'azienda ha come indirizzo `192.168.1.134/29` e al suo 
 
 ### Servizi e-mail
 
-**Ip server mail: 192.168.1.130/29**
-
-Il server utilizza SMTP e POP3
+Il server mail ha indirizzo IP statico `192.168.1.130 /29` e offre servizi SMTP e POP3.
+Sono state configurati le seguenti mail:
 
 | Username | Password | E-Mail |
 | --- | --- | --- |
@@ -123,14 +122,6 @@ Il server utilizza SMTP e POP3
 | lasagnaemiliana | pippo | lasagnaemiliana@robertone.it |
 | francoforte | pippo | francoforte@robertone.it |
 | remolabarca | pippo | remolabarca@robertone.it |
-
-### Servizi Web
-
-**Ip: 192.168.1.133/29**
-
-I server implementano la connessione mediante i protocolli HTTP oppure HTTPS per permettere la visualizzazione dei contenuti nell’apposita directory.
-
-Nello specifico il server permette la visualizzazione di una pagina html statica con degli effetti
 
 ---
 
