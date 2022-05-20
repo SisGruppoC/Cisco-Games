@@ -1,4 +1,5 @@
-# Cisco-Games
+# Cisco Game
+
 ## Lo scenario
 
 Lo scenario rappresentato è quello di una piccola media azienda che ha una propria rete interna e necessita di esporre all'esterno servizi web e mail.
@@ -199,7 +200,7 @@ IPSec implementa due modalità di funzionamento:
 
 1. Configurazione della security license<br>`license boot module c1900 technology-package securityk9`
 
-**Router 2**
+**Router FTP**
 
 `crypto isakmp policy 10`<br>
 `encryption aes 256`<br>
@@ -225,7 +226,7 @@ IPSec implementa due modalità di funzionamento:
 Di seguito i comandi per la configurazione del Router 3 che differiscono dai precedenti per gli ip
 
 
-**Router 3**
+**Router Amministrazione**
 
 `crypto isakmp policy 10`<br>
 `encryption aes 256`<br>
