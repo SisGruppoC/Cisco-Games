@@ -230,13 +230,37 @@ La rotte delle reti locali del Client 3 sono state configurate tramite il protoc
 	<br>
 	`Router (config-router) # network 192.168.2.0`
 
-
 ## Firewall
 
 ### Configurazione ACL standard
 
+È stata configurata una ACL sulla porta GigabitEthernet 0/1 del router RouterFTP per regolare l'accesso al server FTP.
+In particolar modo, si stabilisce che vi possano accedere solamente gli host appartenenti alla rete relativa all'amministrazione.
+`RouterFTP (config) # access-list 9 permit 192.168.1.0 0.0.0.63`
+<br>
+`RouterFTP (config) # interface GigabitEthernet0/1`
+<br>
+`RouterFTP (config-if) # ip access-group 9 in`
+
+
 ### Configurazione ACL estese
----
+
+Per regolare poi l'accesso dall'esterno ai server mail e web è stata impostata un'ACL che accetta solamente il traffico (dell'appropriato protocollo) rivolto verso i server della DMZ.
+
+`RouterPrincipale (config) # ip access-list extended SoloSRV`
+<br>
+`RouterPrincipale (config-ext-nacl) # permit tcp any host 80.0.0.34 eq pop3`
+<br>
+`RouterPrincipale (config-ext-nacl) # permit tcp any host 80.0.0.34 eq smtp`
+<br>
+`RouterPrincipale (config-ext-nacl) # permit tcp any host 80.0.0.24 eq www`
+<br>
+`RouterPrincipale (config-ext-nacl) # permit tcp any host 80.0.0.26 eq www`
+<br>
+`RouterPrincipale (config-ext-nacl) # permit tcp any host 80.0.0.26 eq www`
+<br>
+`RouterPrincipale (config-ext-nacl) # permit tcp any host 80.0.0.30 eq www`
+
 ## VPN (Virtual Private Network)
 
 ### Cos'è una VPN
@@ -273,52 +297,52 @@ IPSec implementa due modalità di funzionamento:
 
 **Router FTP**
 
-`RouterFTP(config)#crypto isakmp policy 10`<br>
-`RouterFTP(config-isakmp)#encryption aes 256`<br>
-`RouterFTP(config-isakmp)#authentication pre-share`<br>
-`RouterFTP(config-isakmp)#group 5`<br>
+`RouterFTP(config) # crypto isakmp policy 10`<br>
+`RouterFTP(config-isakmp) # encryption aes 256`<br>
+`RouterFTP(config-isakmp) # authentication pre-share`<br>
+`RouterFTP(config-isakmp) # group 5`<br>
 
-`RouterFTP(config-isakmp)#crypto isakmp key secretkey address 11.0.0.6` dove 11.0.0.6 è l'ip dell'interfaccia in uscita della rete dove sono presenti gli host che dovranno connettersi al server
+`RouterFTP(config-isakmp) # crypto isakmp key secretkey address 11.0.0.6` dove 11.0.0.6 è l'ip dell'interfaccia in uscita della rete dove sono presenti gli host che dovranno connettersi al server
 
-`RouterFTP(config)#crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac`
+`RouterFTP(config) # crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac`
 
-`RouterFTP(config)#crypto map IPSEC-MAP 10 ipsec-isakmpcrypto map IPSEC-MAP 10 ipsec-isakmp`&nbsp a seguito di questo comando potrebbe essere visualizzata una nota dove si indica che la criptazione sarà disabilitata fino alla configurazione del peer che verrà svolta in seguito<br>
-`RouterFTP(config-crypto-map)#set peer 11.0.0.6`<br> 
-`RouterFTP(config-crypto-map)#set pfs group5`<br>
-`RouterFTP(config-crypto-map)#set security-association lifetime seconds 86400`<br>
-`RouterFTP(config-crypto-map)#set transform-set R1-R3`<br>
-`RouterFTP(config-crypto-map)#match address 100`<br>
+`RouterFTP(config) # crypto map IPSEC-MAP 10 ipsec-isakmpcrypto map IPSEC-MAP 10 ipsec-isakmp`&nbsp a seguito di questo comando potrebbe essere visualizzata una nota dove si indica che la criptazione sarà disabilitata fino alla configurazione del peer che verrà svolta in seguito<br>
+`RouterFTP(config-crypto-map) # set peer 11.0.0.6`<br> 
+`RouterFTP(config-crypto-map) # set pfs group5`<br>
+`RouterFTP(config-crypto-map) # set security-association lifetime seconds 86400`<br>
+`RouterFTP(config-crypto-map) # set transform-set R1-R3`<br>
+`RouterFTP(config-crypto-map) # match address 100`<br>
 
-`RouterFTP(config)#interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete
-`RouterFTP(config-if)#crypto map IPSEC-MAP`
+`RouterFTP(config) # interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete
+`RouterFTP(config-if) # crypto map IPSEC-MAP`
 
-`RouterFTP(config)#access-list 100 permit ip 192.168.1.136 0.0.0.3 192.168.1.0 0.0.0.63` ip della rete connessa al server con l'inverso della sua maschera di rete seguita dalla rete esterna con l'inverso della relativa maschera
+`RouterFTP(config) # access-list 100 permit ip 192.168.1.136 0.0.0.3 192.168.1.0 0.0.0.63` ip della rete connessa al server con l'inverso della sua maschera di rete seguita dalla rete esterna con l'inverso della relativa maschera
 
 Di seguito i comandi per la configurazione del Router 3 che differiscono dai precedenti per gli ip
 
 
 **Router Amministrazione**
 
-`RouterAmministrazione(config)#crypto isakmp policy 10`<br>
-`RouterAmministrazione(config-isakmp)#encryption aes 256`<br>
-`RouterAmministrazione(config-isakmp)#authentication pre-share`<br>
-`RouterAmministrazione(config-isakmp)#group 5`<br>
+`RouterAmministrazione(config) # crypto isakmp policy 10`<br>
+`RouterAmministrazione(config-isakmp) # encryption aes 256`<br>
+`RouterAmministrazione(config-isakmp) # authentication pre-share`<br>
+`RouterAmministrazione(config-isakmp) # group 5`<br>
 
-`RouterAmministrazione(config-isakmp)#crypto isakmp key secretkey address 12.0.0.1` dove 12.0.0.1 è l'ip dell'interfaccia in uscita della rete dove sono presenti gli host che dovranno connettersi al server
+`RouterAmministrazione(config-isakmp) # crypto isakmp key secretkey address 12.0.0.1` dove 12.0.0.1 è l'ip dell'interfaccia in uscita della rete dove sono presenti gli host che dovranno connettersi al server
 
-`RouterAmministrazione(config)#crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac`
+`RouterAmministrazione(config) # crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac`
 
-`RouterAmministrazione(config)#crypto map IPSEC-MAP 10 ipsec-isakmpcrypto map IPSEC-MAP 10 ipsec-isakmp`&nbsp a seguito di questo comando potrebbe essere visualizzata una nota dove si indica che la criptazione sarà disabilitata fino alla configurazione del peer che verrà svolta in seguito<br>
-`RouterAmministrazione(config-crypto-map)#set peer 11.0.0.6`<br> 
-`RouterAmministrazione(config-crypto-map)#set pfs group5`<br>
-`RouterAmministrazione(config-crypto-map)#set security-association lifetime seconds 86400`<br>
-`RouterAmministrazione(config-crypto-map)#set transform-set R1-R3`<br>
-`RouterAmministrazione(config-crypto-map)#match address 100`<br>
+`RouterAmministrazione(config) # crypto map IPSEC-MAP 10 ipsec-isakmpcrypto map IPSEC-MAP 10 ipsec-isakmp`&nbsp a seguito di questo comando potrebbe essere visualizzata una nota dove si indica che la criptazione sarà disabilitata fino alla configurazione del peer che verrà svolta in seguito<br>
+`RouterAmministrazione(config-crypto-map) # set peer 11.0.0.6`<br> 
+`RouterAmministrazione(config-crypto-map) # set pfs group5`<br>
+`RouterAmministrazione(config-crypto-map) # set security-association lifetime seconds 86400`<br>
+`RouterAmministrazione(config-crypto-map) # set transform-set R1-R3`<br>
+`RouterAmministrazione(config-crypto-map) # match address 100`<br>
 
-`RouterAmministrazione(config)#interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete
-`RouterAmministrazione(config-if)#crypto map IPSEC-MAP`
+`RouterAmministrazione(config) # interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete
+`RouterAmministrazione(config-if) # crypto map IPSEC-MAP`
 
-`RouterAmministrazione(config)#access-list 100 permit ip 192.168.1.0 0.0.0.63 192.168.1.136 0.0.0.7` ip della rete connessa al router con l'inverso della sua maschera di rete seguita dalla rete esterna con l'inverso della relativa maschera
+`RouterAmministrazione(config) # access-list 100 permit ip 192.168.1.0 0.0.0.63 192.168.1.136 0.0.0.7` ip della rete connessa al router con l'inverso della sua maschera di rete seguita dalla rete esterna con l'inverso della relativa maschera
 
 ### Perchè è stato configurato
 Ci si avvale di una VPN per connettersi al server FTP in quanto questo gestirà file privati motivo per cui si vuole avere una maggiore sicurezza durante il loro trasferimento
