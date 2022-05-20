@@ -45,6 +45,8 @@ Nella rete locale, invece, si distinguono 4 sezioni rispettivamente dedicate a:
 - **Sala server** (`192.168.1.128 /29`);
 - **Sala server FTP** (`192.168.1.136 /29`), a cui si accede con appositi criteri;
 
+![Rete aziendale](https://i.ibb.co/410gXZK/Screenshot-2022-05-20-at-19-10-11.png)
+
 
 ## Subnet
 
@@ -143,13 +145,89 @@ Sono state configurati le seguenti mail:
 
 ## Routing
 
-### Rotte statiche lato ISP
 
 ### Rotte dinamiche interne alla rete aziendale - OSPF
+Il routing della rete locale aziendale è stato configurato tramite l'uso del protocollo OSPF.
 
-### Rotte dinamiche rete client - RIP
+Seguono le configurazioni dei router:
 
----
+- **RouterFTP**
+	<br>
+	`RouterFTP (config) # router ospf 1`
+	<br>
+	`RouterFTP (config-router) # network 192.168.1.136 0.0.0.7 area 0`
+	<br>
+	`RouterFTP (config-router) # network 12.0.0.0 0.0.0.3 area 0`
+
+
+- **RouterServer**
+	<br>
+	`RouterServer (config) # router ospf 1`
+	<br>
+	`RouterServer (config-router) # network 192.168.1.128 0.0.0.7 area 0`
+	<br>
+	`RouterServer (config-router) # network 11.0.0.0 0.0.0.3 area 0`
+	<br>
+	`RouterServer (config-router) # network 12.0.0.0 0.0.0.3 area 0`
+	
+- **RouterCentrale**
+	<br>
+	`RouterCentrale (config) # router ospf 1`
+	<br>
+	`RouterCentrale (config-router) # network 11.0.0.0 0.0.0.3 area 0`
+	<br>
+	`RouterCentrale (config-router) # network 11.0.0.4 0.0.0.3 area 0`
+	<br>
+	`RouterCentrale (config-router) # network 11.0.0.8 0.0.0.3 area 0`
+	<br>
+	`RouterCentrale (config-router) # network 11.0.0.12 0.0.0.3 area 0`
+
+- **RouterAmministrazione**
+	<br>
+	`RouterAmministrazione (config) # router ospf 1`
+	<br>
+	`RouterAmministrazione (config-router) # network 11.0.0.4 0.0.0.3 area 0`
+	<br>
+	`RouterAmministrazione (config-router) # network 192.168.1.0 0.0.0.63 area 0`
+	
+- **RouterUtenti**
+	<br>
+	`RouterUtenti (config) # router ospf 1`
+	<br>
+	`RouterUtenti (config-router) # network 11.0.0.8 0.0.0.3 area 0`
+	<br>
+	`RouterUtenti (config-router) # network 192.168.1.64 0.0.0.63 area 0`
+	
+- **RouterPrincipale**
+	<br>
+	`RouterPrincipale (config) # router ospf 1`
+	<br>
+	`RouterPrincipale (config-router) # network 192.168.1.136 0.0.0.7 area 0`
+	<br>
+	`RouterPrincipale (config-router) # network 11.0.0.12 0.0.0.3 area 0`
+	<br>
+	`RouterPrincipale (config-router) # network 80.0.0.0 0.255.255.255 area 0` &nbsp; (Supernetting)
+
+### Rotte dinamiche nella rete Client 3 - RIP
+
+La rotte delle reti locali del Client 3 sono state configurate tramite il protocollo RIP eseguendo i seguenti comandi:
+
+- Router principale:
+	<br>
+	`Router (config) # router rip`
+	<br>
+	`Router (config-router) # network 10.0.0.0`
+	<br>
+	`Router (config-router) # network 192.168.1.0`
+
+- Router secondario:
+	<br>
+	`Router (config) # router rip`
+	<br>
+	`Router (config-router) # network 10.0.0.0`
+	<br>
+	`Router (config-router) # network 192.168.2.0`
+
 
 ## Firewall
 
