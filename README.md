@@ -160,7 +160,7 @@ Il server DHCP interno all'azienda ha come indirizzo `192.168.1.131 /29`.
 Al suo interno sono configurati 2 POOL nel seguente modo:
 
 | Pool name | Default gateway | DNS server | Start IP address | Subnet Mask | Max user |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- |
 | ReteA | 192.168.1.1 | 192.168.1.134 | 192.168.1.2 | 255.255.255.192 | 61 |
 | ReteB | 192.168.1.65 | 192.168.1.134 | 192.168.1.66 | 255.255.255.192 | 61 |
 
