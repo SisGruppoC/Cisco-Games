@@ -358,7 +358,7 @@ Ci si avvale di una VPN per connettersi al server FTP in quanto il protocollo FT
 	`RouterFTP(config-crypto-map) # set transform-set R1-R3`<br>
 	`RouterFTP(config-crypto-map) # match address 100`<br>
 	
-	`RouterFTP(config) # interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete
+	`RouterFTP(config) # interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete<br>
 	`RouterFTP(config-if) # crypto map IPSEC-MAP`
 	
 	`RouterFTP(config) # access-list 100 permit ip 192.168.1.136 0.0.0.3 192.168.1.0 0.0.0.63` ip della rete connessa al server con l'inverso della sua maschera di rete seguita dalla rete esterna con l'inverso della relativa maschera
@@ -377,14 +377,19 @@ Di seguito i comandi per la configurazione del Router 3 che differiscono dai pre
 	
 	`RouterAmministrazione(config) # crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac`
 	
-	`RouterAmministrazione(config) # crypto map IPSEC-MAP 10 ipsec-isakmpcrypto map IPSEC-MAP 10 ipsec-isakmp`&nbsp a seguito di questo comando potrebbe essere visualizzata una nota dove si indica che la criptazione sarà disabilitata fino alla configurazione del peer che verrà svolta in seguito<br>
+	`RouterAmministrazione(config) # crypto map IPSEC-MAP 10 ipsec-isakmpcrypto map IPSEC-MAP 10 ipsec-isakmp`&nbsp; a seguito di questo comando potrebbe essere visualizzata una nota dove si indica che la criptazione sarà disabilitata fino alla configurazione del peer che verrà svolta in seguito<br>
 	`RouterAmministrazione(config-crypto-map) # set peer 11.0.0.6`<br> 
 	`RouterAmministrazione(config-crypto-map) # set pfs group5`<br>
 	`RouterAmministrazione(config-crypto-map) # set security-association lifetime seconds 86400`<br>
 	`RouterAmministrazione(config-crypto-map) # set transform-set R1-R3`<br>
 	`RouterAmministrazione(config-crypto-map) # match address 100`<br>
 	
-	`RouterAmministrazione(config) # interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete
+	`RouterAmministrazione(config) # interface GigabitEthernet0/1` interfaccia di rete con cui è collegato il router al resto dell'infrastruttura di rete<br>
 	`RouterAmministrazione(config-if) # crypto map IPSEC-MAP`
 	
 	`RouterAmministrazione(config) # access-list 100 permit ip 192.168.1.0 0.0.0.63 192.168.1.136 0.0.0.7` ip della rete connessa al router con l'inverso della sua maschera di rete seguita dalla rete esterna con l'inverso della relativa maschera
+	
+### Focus
+Il cifrario utilizzato dalla VPN per mantenere la segretezza dei dati trasmessi nella comunicazione è AES ovvero un'algoritmo di cifratura a blocchi a chiave simmetrica con una chiave a 256.
+Per garantire l'integrità dei messaggi in questo caso è stato scelta una combinazione fra ah-sha-hmac ovvero una funzione sha che produce un codice di autenticazione HMAC.
+
